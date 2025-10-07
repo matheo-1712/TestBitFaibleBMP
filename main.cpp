@@ -63,15 +63,13 @@ int main()
     // limiter à 64 octets
     size_t n = std::min<size_t>(64, data.size() - headerSize);
 
-    cout << "\n--- Bits faibles avant modification ---\n";
-
-    // On parcout l'ensemble des octets de l'image
+    // Affichage avant modification
+    cout << "\n--- Bits forts | Bits faibles avant modification ---\n";
     for (size_t i = 0; i < n; ++i)
     {
-        // - bitset<8> : Crée un objet qui représente 8 bits (1 octet)
         bitset<8> bits(data[headerSize + i]);
-        cout << bits.to_string().substr(4,4) << " ";
-        if ((i+1) % 8 == 0) cout << "\n"; // 8 octets par ligne
+        cout << bits.to_string().substr(0,4) << "|" << bits.to_string().substr(4,4) << " ";
+        if ((i+1) % 8 == 0) cout << "\n";
     }
 
     // Modifier le LSB (bit faible) de chaque octet
@@ -80,12 +78,13 @@ int main()
         // Masque des bits qu'on veut modifier
         modifiedData[i] |= 0x01;
 
-    cout << "\n--- Bits faibles apres modification ---\n";
+    // Affichage après modification
+    cout << "\n--- Bits forts | Bits faibles apres modification ---\n";
     for (size_t i = 0; i < n; ++i)
     {
         bitset<8> bits(modifiedData[headerSize + i]);
-        cout << bits.to_string().substr(4,4) << " ";
-        if ((i+1) % 8 == 0) cout << "\n"; // 8 octets par ligne
+        cout << bits.to_string().substr(0,4) << "|" << bits.to_string().substr(4,4) << " ";
+        if ((i+1) % 8 == 0) cout << "\n";
     }
 
     // Sauvegarder l'image modifiée
